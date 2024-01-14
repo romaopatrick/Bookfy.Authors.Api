@@ -37,8 +37,8 @@ namespace Bookfy.Authors.Api.Adapters
         public async Task<Result<Paginated<Author>>> Get(SearchAuthors input, CancellationToken ct)
         {
             var result = await _repository.Get(x => 
-                x.FullName.StartsWith(input.SearchTerm!, StringComparison.CurrentCultureIgnoreCase) || 
-                x.Nickname!.StartsWith(input.SearchTerm!, StringComparison.CurrentCultureIgnoreCase), 
+                x.FullName.StartsWith(input.SearchTerm ?? "", StringComparison.CurrentCultureIgnoreCase) || 
+                x.Nickname!.StartsWith(input.SearchTerm ?? "", StringComparison.CurrentCultureIgnoreCase), 
                 input.Skip ?? 0,
                 input.Take ?? 10,
                 ct);
