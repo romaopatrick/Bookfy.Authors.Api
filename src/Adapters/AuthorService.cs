@@ -57,13 +57,13 @@ namespace Bookfy.Authors.Api.Adapters
 
         public async Task<Result<AuthorUpdated>> Update(UpdateAuthor input, CancellationToken ct)
         {
-            if (!string.IsNullOrEmpty(input.FullName) &&
-                await OtherAuthorWithFullNameExists(input.Id, input.FullName, ct))
-                return Result.WithFailure<AuthorUpdated>("author_fullname_conflicted", 409);
-
             var author = await _repository.First(x => x.Id == input.Id, ct);
             if (author is null)
                 return Result.WithFailure<AuthorUpdated>("author_not_found_with_id", 404);
+
+            if (!string.IsNullOrEmpty(input.FullName) &&
+                await OtherAuthorWithFullNameExists(input.Id, input.FullName, ct))
+                return Result.WithFailure<AuthorUpdated>("author_fullname_conflicted", 409);
 
             author.FullName = input.FullName ?? author.FullName;
             author.Nickname = input.Nickname;
