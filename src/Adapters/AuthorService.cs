@@ -16,8 +16,8 @@ namespace Bookfy.Authors.Api.Adapters
 
             var author = await _repository.Create(new Author
             {
-                FullName = input.FullName.TitleCase(),
-                Nickname = input.Nickname?.TitleCase() ?? "",
+                FullName = input.FullName.ToLower(),
+                Nickname = input.Nickname?.ToLower() ?? "",
             }, ct);
 
             return Result.WithSuccess(new AuthorCreated(author), 201);
