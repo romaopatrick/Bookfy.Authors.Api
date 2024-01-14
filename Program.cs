@@ -1,8 +1,5 @@
 using Bookfy.Authors.Api.Adapters;
-using Bookfy.Authors.Api.Boundaries;
 using Bookfy.Authors.Api.Ports;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +13,9 @@ builder.Services.Configure<MongoDbSettings>(
 );
 
 builder.Services.AddSingleton<IMongoClient>(new MongoClient(
-    Environment.GetEnvironmentVariable("MONGO_CONNECTION_STRING", EnvironmentVariableTarget.Process)
+    builder.Configuration
+        .GetSection(nameof(MongoDbSettings))
+        .GetValue<string>("ConnectionString")
 ));
 
 builder.Services.AddScoped<IAuthorUseCase, AuthorService>();

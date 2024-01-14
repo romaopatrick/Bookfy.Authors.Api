@@ -10,7 +10,7 @@ CHECKLIST.md
 *.userosscache
 *.sln.docstates
 .vscode/
-*.appsettings.Development.json
+appsettings.Development.json
 
 
 
