@@ -14,12 +14,13 @@ namespace Bookfy.Authors.Api.Adapters
                 .GetDatabase(dbSettings.Value.Database)
                 .GetCollection<Author>(nameof(Author));
 
-
         public async Task<Author> Create(Author author, CancellationToken ct)
         {
+            author.Id = Guid.NewGuid();
             author.CreatedAt = DateTime.UtcNow;
             await _collection
-                .InsertOneAsync(author, new(), ct);
+                .InsertOneAsync(author, 
+                    cancellationToken: ct);
 
             return author;
         }
